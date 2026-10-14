@@ -109,15 +109,25 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
 .conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:8}
 .conf i{position:absolute;top:-12px;width:9px;height:14px;border-radius:3px;animation:fall 2.4s ease-in forwards}
 @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.7}}
-/* PC */
-.pc .glow{transition:opacity 1s}
-.pc .fan{transform-box:fill-box;transform-origin:center}
-.pc .fan.on{animation:spin 2.2s linear infinite}
+/* PC que se arma */
+.hero{grid-template-columns:1fr}
+.build{display:block;width:100%;height:auto;max-width:420px;margin:0 auto}
+.build .ghost{fill:none;stroke:var(--muted);stroke-opacity:.35;stroke-width:1.5;stroke-dasharray:5 5}
+.build .pt{opacity:0;transform-box:fill-box;transform-origin:center;transform:scale(.85);transition:opacity .6s,transform .6s cubic-bezier(.2,.9,.3,1.3)}
+.build .has>.pt{opacity:1;transform:none}
+.build .has>.ghost{display:none}
+.build .fan{transform-box:fill-box;transform-origin:center;animation:spin 2.4s linear infinite}
+.build .rgbl{filter:url(#glow)}
+.build .huer{animation:hue 5s linear infinite}
 @keyframes spin{to{transform:rotate(360deg)}}
-.pc .rgb{animation:hue 6s linear infinite}
 @keyframes hue{to{filter:hue-rotate(360deg)}}
-@media (prefers-reduced-motion: reduce){.pc .fan.on,.pc .rgb{animation:none}}
-@media (max-width:380px){.hero{grid-template-columns:1fr 88px}.big{font-size:28px}}
+.buildtxt{display:flex;justify-content:space-between;color:var(--muted);font-weight:700;font-size:13px;margin-top:6px}
+/* bordes RGB al completar */
+@property --ang{syntax:'<angle>';inherits:false;initial-value:0deg}
+body.done .card{border:2px solid transparent;background:linear-gradient(var(--card),var(--card)) padding-box,conic-gradient(from var(--ang),#ff5fa2,#ffb86b,#ffe66d,#6bffb8,#6bc8ff,#b98cff,#ff5fa2) border-box;animation:spinb 4s linear infinite;box-shadow:0 0 18px rgba(255,95,162,.25)}
+@keyframes spinb{to{--ang:360deg}}
+@media (prefers-reduced-motion: reduce){.build .fan,.build .huer,body.done .card{animation:none}}
+@media (max-width:380px){.big{font-size:28px}}
 
 .wrap{padding-top:max(20px,env(safe-area-inset-top))}
 .ver{opacity:.6;font-size:11px}
@@ -126,8 +136,8 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
 <body>
 
 <div class="wrap">
-  <h1>Mi PC gamer 💗</h1>
-  <p class="sub">Cada turno te acerca un poquito más</p>
+  <h1 id="tTitle">Mi PC gamer 💗</h1>
+  <p class="sub" id="tSub">Cada turno te acerca un poquito más</p>
 
   <div class="warn" id="warn">Este navegador no está guardando datos. Usa “Respaldo” para no perder tu avance.</div>
 
@@ -138,26 +148,6 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
         <div class="big num" id="saved">$0</div>
         <div class="meta" id="goalTxt">de $655.000</div>
       </div>
-      <svg class="pc" id="pc" viewBox="0 0 112 140" width="112" height="140" aria-label="Tu PC se ilumina mientras ahorras">
-        <defs>
-          <linearGradient id="rg" x1="0" x2="1" y1="0" y2="1">
-            <stop offset="0" stop-color="#ff7eb6"/><stop offset=".5" stop-color="#b98cff"/><stop offset="1" stop-color="#7ee0ff"/>
-          </linearGradient>
-          <radialGradient id="fg"><stop offset="0" stop-color="#fff" stop-opacity=".9"/><stop offset="1" stop-color="#ff9cc4" stop-opacity="0"/></radialGradient>
-        </defs>
-        <rect x="8" y="6" width="96" height="124" rx="12" fill="var(--soft)" stroke="var(--line)" stroke-width="2"/>
-        <rect x="16" y="14" width="80" height="108" rx="8" fill="var(--card)"/>
-        <g class="rgb">
-          <rect class="glow" id="edge" x="16" y="14" width="80" height="108" rx="8" fill="none" stroke="url(#rg)" stroke-width="3" opacity="0"/>
-          <rect class="glow" id="gpuL" x="24" y="76" width="64" height="12" rx="4" fill="url(#rg)" opacity="0"/>
-        </g>
-        <rect x="24" y="76" width="64" height="12" rx="4" fill="none" stroke="var(--line)" stroke-width="1.5"/>
-        <g id="fans">
-          <g><circle class="glow" cx="40" cy="38" r="15" fill="url(#fg)" opacity="0"/><g class="fan"><circle cx="40" cy="38" r="12" fill="none" stroke="var(--bar)" stroke-width="2.5"/><path d="M40 38 L40 28 M40 38 L48.7 43 M40 38 L31.3 43" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></g></g>
-          <g><circle class="glow" cx="72" cy="38" r="15" fill="url(#fg)" opacity="0"/><g class="fan"><circle cx="72" cy="38" r="12" fill="none" stroke="var(--bar)" stroke-width="2.5"/><path d="M72 38 L72 28 M72 38 L80.7 43 M72 38 L63.3 43" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></g></g>
-          <g><circle class="glow" cx="56" cy="106" r="13" fill="url(#fg)" opacity="0"/><g class="fan"><circle cx="56" cy="106" r="10" fill="none" stroke="var(--bar)" stroke-width="2.5"/><path d="M56 106 L56 98 M56 106 L63 110 M56 106 L49 110" stroke="var(--accent)" stroke-width="3" stroke-linecap="round"/></g></g>
-        </g>
-      </svg>
     </div>
     <div class="bar"><i id="barFill"></i></div>
     <div class="barrow"><span id="pct">0%</span><span id="left">Faltan $655.000</span></div>
@@ -170,15 +160,76 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
   </section>
 
   <section class="card">
+    <h2>Tu PC se va armando</h2>
+    <svg class="build" id="build" viewBox="0 0 320 300" role="img" aria-label="Dibujo de tu PC: cada pieza aparece cuando juntas su plata">
+      <defs>
+        <linearGradient id="rgbg" x1="0" x2="1" y1="0" y2="1"><stop offset="0" stop-color="#ff5fa2"/><stop offset=".35" stop-color="#b98cff"/><stop offset=".7" stop-color="#6bc8ff"/><stop offset="1" stop-color="#6bffb8"/></linearGradient>
+        <filter id="glow" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="3" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+      </defs>
+      <!-- gabinete -->
+      <g data-p="case">
+        <rect class="ghost" x="6" y="6" width="308" height="288" rx="16"/>
+        <g class="pt"><rect x="6" y="6" width="308" height="288" rx="16" fill="var(--soft)" stroke="#ffffff" stroke-width="4"/><rect x="16" y="16" width="288" height="268" rx="10" fill="none" stroke="var(--bar)" stroke-opacity=".5" stroke-width="1.5"/></g>
+      </g>
+      <!-- placa madre -->
+      <g data-p="mb">
+        <rect class="ghost" x="28" y="28" width="210" height="244" rx="8"/>
+        <g class="pt">
+          <rect x="28" y="28" width="210" height="244" rx="8" fill="#4a3a42"/>
+          <g stroke="#7a5a68" stroke-width="1.2" fill="none" opacity=".8"><path d="M40 150 H95 V200"/><path d="M200 150 V230 H150"/><path d="M60 60 H95"/><path d="M175 110 H230"/><path d="M45 240 H120"/></g>
+          <rect x="34" y="34" width="22" height="70" rx="3" fill="#5c4752"/><rect x="214" y="200" width="16" height="16" rx="3" fill="#5c4752"/>
+          <rect x="88" y="66" width="68" height="68" rx="4" fill="#5c4752" stroke="#8a6a78"/>
+        </g>
+      </g>
+      <!-- CPU -->
+      <g data-p="cpu">
+        <rect class="ghost" x="96" y="74" width="52" height="52" rx="4"/>
+        <g class="pt"><rect x="96" y="74" width="52" height="52" rx="4" fill="#d9d4d8" stroke="#b9b1b6"/><rect x="104" y="82" width="36" height="36" rx="2" fill="#c7c0c5"/><text x="122" y="104" text-anchor="middle" font-family="Fredoka,sans-serif" font-size="9" font-weight="700" fill="#7a6a72">RYZEN</text></g>
+      </g>
+      <!-- disipador ARGB -->
+      <g data-p="cool">
+        <circle class="ghost" cx="122" cy="100" r="40"/>
+        <g class="pt"><rect x="80" y="58" width="84" height="84" rx="10" fill="#ffffff" stroke="#e8dfe4"/><g class="huer"><circle class="rgbl" cx="122" cy="100" r="34" fill="none" stroke="url(#rgbg)" stroke-width="5"/></g><g class="fan"><circle cx="122" cy="100" r="27" fill="#f4eef1"/><path d="M122 100 C118 86 126 78 132 80 C130 90 126 96 122 100 M122 100 C136 98 142 106 138 111 C130 108 125 104 122 100 M122 100 C114 111 104 110 103 104 C111 100 117 100 122 100" fill="#e3d6dd"/></g><circle cx="122" cy="100" r="6" fill="#ffffff" stroke="#e3d6dd"/></g>
+      </g>
+      <!-- RAM -->
+      <g data-p="ram">
+        <rect class="ghost" x="180" y="48" width="9" height="96" rx="2"/><rect class="ghost" x="196" y="48" width="9" height="96" rx="2"/>
+        <g class="pt"><rect x="180" y="48" width="9" height="96" rx="2" fill="#2b2227"/><rect x="196" y="48" width="9" height="96" rx="2" fill="#2b2227"/><rect x="181.5" y="52" width="6" height="88" rx="1" fill="#e8e1e5" opacity=".9"/><rect x="197.5" y="52" width="6" height="88" rx="1" fill="#e8e1e5" opacity=".9"/></g>
+      </g>
+      <!-- SSD M.2 -->
+      <g data-p="ssd">
+        <rect class="ghost" x="70" y="160" width="100" height="16" rx="3"/>
+        <g class="pt"><rect x="70" y="160" width="100" height="16" rx="3" fill="#1f6b4a"/><rect x="80" y="163" width="24" height="10" rx="1" fill="#1a1a1a"/><rect x="110" y="163" width="24" height="10" rx="1" fill="#1a1a1a"/><rect x="140" y="164" width="22" height="8" rx="1" fill="#e9e3e6"/></g>
+      </g>
+      <!-- GPU -->
+      <g data-p="gpu">
+        <rect class="ghost" x="40" y="196" width="196" height="54" rx="8"/>
+        <g class="pt"><rect x="40" y="196" width="196" height="54" rx="8" fill="#2f2a2e" stroke="#4a4248"/><g fill="#3f383d" stroke="#5a5157"><circle cx="92" cy="223" r="20"/><circle cx="184" cy="223" r="20"/></g><g class="fan"><path d="M92 223 L92 207 M92 223 L106 231 M92 223 L78 231" stroke="#6a6067" stroke-width="4" stroke-linecap="round"/></g><g class="fan"><path d="M184 223 L184 207 M184 223 L198 231 M184 223 L170 231" stroke="#6a6067" stroke-width="4" stroke-linecap="round"/></g><rect x="40" y="244" width="196" height="4" rx="2" fill="var(--bar)" opacity=".8"/></g>
+      </g>
+      <!-- ventiladores ARGB laterales -->
+      <g data-p="fans">
+        <circle class="ghost" cx="276" cy="70" r="28"/><circle class="ghost" cx="276" cy="150" r="28"/><circle class="ghost" cx="276" cy="230" r="28"/>
+        <g class="pt">
+          <g class="huer">
+            <circle class="rgbl" cx="276" cy="70" r="28" fill="none" stroke="url(#rgbg)" stroke-width="5"/>
+            <circle class="rgbl" cx="276" cy="150" r="28" fill="none" stroke="url(#rgbg)" stroke-width="5"/>
+            <circle class="rgbl" cx="276" cy="230" r="28" fill="none" stroke="url(#rgbg)" stroke-width="5"/>
+          </g>
+          <g fill="#ffffff" stroke="#efe6ea">
+            <g class="fan"><circle cx="276" cy="70" r="22"/><path d="M276 70 L276 52 M276 70 L292 79 M276 70 L260 79" stroke="#e3d6dd" stroke-width="5" stroke-linecap="round"/></g>
+            <g class="fan"><circle cx="276" cy="150" r="22"/><path d="M276 150 L276 132 M276 150 L292 159 M276 150 L260 159" stroke="#e3d6dd" stroke-width="5" stroke-linecap="round"/></g>
+            <g class="fan"><circle cx="276" cy="230" r="22"/><path d="M276 230 L276 212 M276 230 L292 239 M276 230 L260 239" stroke="#e3d6dd" stroke-width="5" stroke-linecap="round"/></g>
+          </g>
+        </g>
+      </g>
+    </svg>
+    <div class="buildtxt"><span id="buildCount">0 de 0 piezas</span><span id="buildHint">Las punteadas te faltan ✨</span></div>
+  </section>
+
+  <section class="card">
     <h2>Sumar ahorro</h2>
     <label class="amount"><b>$</b><input id="amt" inputmode="numeric" autocomplete="off" placeholder="0" aria-label="Monto"></label>
-    <div class="chips" id="chips">
-      <button class="chip" data-v="turno">+1 turno</button>
-      <button class="chip" data-v="5000">+$5.000</button>
-      <button class="chip" data-v="10000">+$10.000</button>
-      <button class="chip" data-v="20000">+$20.000</button>
-      <button class="chip" data-v="50000">+$50.000</button>
-    </div>
+    <div class="chips" id="chips"></div>
     <input class="note" id="note" maxlength="60" placeholder="Nota (opcional): turno del sábado, propina…">
     <div class="row">
       <button class="btn main" id="add">Guardar 💗</button>
@@ -215,29 +266,140 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
     </details>
   </section>
 
-  <p class="foot" style="text-align:center">Precios aproximados · La tarjeta de video será de segunda mano<br><span class="ver">versión 1.0</span></p>
+  <p class="foot" style="text-align:center"><span id="tFoot">Precios aproximados · La tarjeta de video será de segunda mano</span><br><span class="ver" id="tVer">versión 1.0</span></p>
 </div>
 <div class="toast" id="toast"></div>
 <div class="conf" id="conf"></div>
 
 <script>
+/* ====== CONFIGURACIÓN: todo lo editable de la app está aquí ====== */
+const CONFIG = /*CONFIG*/{
+  "version": "1.1",
+  "titulo": "Mi PC gamer 💗",
+  "subtitulo": "Cada turno esfuerzo te acerca un poquito mas :3",
+  "pie": "Con mucho amors de Mati.",
+  "botonGuardar": "Guardar 💗",
+  "gananciaPorTurno": 30000,
+  "botonesRapidos": [
+    5000,
+    10000,
+    20000,
+    50000
+  ],
+  "colores": {
+    "fondo": "#fdf2f5",
+    "tarjetas": "#ffffff",
+    "suave": "#fde3ec",
+    "principal": "#f56698",
+    "barra": "#fe9aba",
+    "texto": "#4a3a42"
+  },
+  "regalo": {
+    "mostrar": true,
+    "emoji": "✨",
+    "nombre": "Memoria RAM",
+    "descripcion": "Apacer NOX · 2×8 GB · regalo de Mati 💝",
+    "precio": 140000,
+    "etiqueta": "Regalo 💝"
+  },
+  "grupos": {
+    "primero": "1° · Primero",
+    "segundo": "2° · Después",
+    "flex": "Cuando estén baratas · cualquier orden",
+    "final": "Al final"
+  },
+  "piezas": [
+    {
+      "emoji": "💾",
+      "nombre": "Disco SSD M.2",
+      "descripcion": "WD Green SN3000 · 1 TB · guarda tus juegos",
+      "precio": 150000,
+      "grupo": "primero"
+    },
+    {
+      "emoji": "🧠",
+      "nombre": "Procesador",
+      "descripcion": "AMD Ryzen 5 5500 · el cerebro",
+      "precio": 90000,
+      "grupo": "segundo"
+    },
+    {
+      "emoji": "🔌",
+      "nombre": "Placa madre",
+      "descripcion": "Conecta todo · B550",
+      "precio": 80000,
+      "grupo": "flex"
+    },
+    {
+      "emoji": "⚡",
+      "nombre": "Fuente de poder",
+      "descripcion": "650 W · le da energía",
+      "precio": 40000,
+      "grupo": "flex"
+    },
+    {
+      "emoji": "🏠",
+      "nombre": "Gabinete",
+      "descripcion": "Sama Neview 3321 · blanco",
+      "precio": 45000,
+      "grupo": "flex"
+    },
+    {
+      "emoji": "❄️",
+      "nombre": "Disipador",
+      "descripcion": "Thermalright ARGB · blanco",
+      "precio": 20000,
+      "grupo": "flex"
+    },
+    {
+      "emoji": "🌀",
+      "nombre": "Ventiladores",
+      "descripcion": "3 ventiladores ARGB blancos",
+      "precio": 20000,
+      "grupo": "flex"
+    },
+    {
+      "emoji": "🎮",
+      "nombre": "Tarjeta de video",
+      "descripcion": "Segunda mano · para jugar fluido",
+      "precio": 210000,
+      "grupo": "final"
+    }
+  ],
+  "mensajesHitos": {
+    "25": "¡25%! Ya llevas un cuarto de tu PC colason! animo💗",
+    "50": "¡La mitad! vas bombaa💣",
+    "75": "¡75%! Ya estas casi!! 🎮",
+    "100": "¡TU PC ESTÁ COMPLETO! VALEEEEE! Felicidades!!🎉💗"
+  }
+}/*FIN*/;
+/* ================================================================= */
 (function(){
   const KEY='vale-pc-ahorro-v1';
-  const GOAL_PARTS=[
-    {id:'ssd',n:'Disco SSD M.2',d:'WD Green SN3000 · 1 TB · guarda tus juegos',p:150000,ic:'💾',g:'1° · Primero'},
-    {id:'cpu',n:'Procesador',d:'AMD Ryzen 5 5500 · el cerebro',p:90000,ic:'🧠',g:'2° · Después'},
-    {id:'mb',n:'Placa madre',d:'Conecta todo · B550',p:80000,ic:'🔌',g:'flex'},
-    {id:'psu',n:'Fuente de poder',d:'650 W · le da energía',p:40000,ic:'⚡',g:'flex'},
-    {id:'case',n:'Gabinete',d:'Sama Neview 3321 · blanco',p:45000,ic:'🏠',g:'flex'},
-    {id:'cool',n:'Disipador',d:'Thermalright ARGB · blanco',p:20000,ic:'❄️',g:'flex'},
-    {id:'fans',n:'Ventiladores',d:'3 ventiladores ARGB blancos',p:20000,ic:'🌀',g:'flex'},
-    {id:'gpu',n:'Tarjeta de video',d:'Segunda mano · para jugar fluido',p:210000,ic:'🎮',g:'Al final'}
-  ];
-  const GOAL=GOAL_PARTS.reduce((a,b)=>a+b.p,0);
-  const fmt=n=>'$'+Math.round(n).toLocaleString('es-CL');
   const $=id=>document.getElementById(id);
+  const fmt=n=>'$'+Math.round(n).toLocaleString('es-CL');
+  const C=CONFIG;
 
-  let state={perShift:30000,entries:[],hit:[]};
+  // aplicar textos y colores
+  $('tTitle').textContent=C.titulo; $('tSub').textContent=C.subtitulo; $('tFoot').textContent=C.pie;
+  $('tVer').textContent='versión '+C.version; $('add').textContent=C.botonGuardar;
+  document.title=C.titulo.replace(/[^\p{L}\p{N}\s]/gu,'').trim()||document.title;
+  (function(){
+    const k=C.colores||{}; const st=document.createElement('style');
+    st.textContent=':root{--bg:'+k.fondo+';--card:'+k.tarjetas+';--soft:'+k.suave+';--accent:'+k.principal+';--accent2:'+k.principal+';--bar:'+k.barra+';--text:'+k.texto+'}';
+    document.head.appendChild(st);
+  })();
+  const chips=$('chips');
+  [['turno','+1 turno']].concat((C.botonesRapidos||[]).map(v=>[v,'+'+fmt(v)])).forEach(([v,t])=>{
+    const b=document.createElement('button');b.className='chip';b.dataset.v=v;b.textContent=t;chips.appendChild(b);
+  });
+
+  const ORD={primero:0,segundo:1,flex:2,final:3};
+  const GOAL_PARTS=(C.piezas||[]).map((p,i)=>({n:p.nombre,d:p.descripcion,p:Math.max(0,+p.precio||0),ic:p.emoji,g:p.grupo in ORD?p.grupo:'flex',i}))
+    .filter(p=>p.p>0).sort((a,b)=>ORD[a.g]-ORD[b.g]||a.i-b.i);
+  const GOAL=GOAL_PARTS.reduce((a,b)=>a+b.p,0);
+
+  let state={perShift:C.gananciaPorTurno||30000,entries:[],hit:[]};
   let storageOk=true;
   function load(){
     try{const s=localStorage.getItem(KEY); if(s){const o=JSON.parse(s); if(o&&Array.isArray(o.entries)) state=Object.assign(state,o);} }
@@ -248,12 +410,11 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
   function save(){ try{localStorage.setItem(KEY,JSON.stringify(state))}catch(e){storageOk=false;$('warn').style.display='block'} }
 
   const parseAmt=v=>parseInt(String(v).replace(/\D/g,''),10)||0;
-  function bindMoney(inp){
-    inp.addEventListener('input',()=>{const n=parseAmt(inp.value);inp.value=n?n.toLocaleString('es-CL'):''});
-  }
+  function bindMoney(inp){inp.addEventListener('input',()=>{const n=parseAmt(inp.value);inp.value=n?n.toLocaleString('es-CL'):''})}
   bindMoney($('amt')); bindMoney($('perShift'));
 
   const total=()=>Math.max(0,state.entries.reduce((a,e)=>a+e.a,0));
+  const turnos=n=>n+' turno'+(n===1?'':'s');
 
   function render(){
     const t=total(), saved=Math.min(t,GOAL), left=Math.max(0,GOAL-t), pct=GOAL?saved/GOAL:0;
@@ -268,48 +429,55 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
     $('turnosTxt').textContent=left?(tn===1?'turno de trabajo más y tu PC está completo':'turnos de trabajo más y tu PC está completo'):'¡Juntaste todo! Tu PC está completo';
     $('etaTxt').textContent=eta(left,ps);
 
-    // parts allocation
-    let rem=t; const ul=$('parts'); ul.innerHTML='';
-    let next=null, lastG='';
+    let rem=t; const ul=$('parts'); ul.innerHTML=''; const owned={}; let nOwned=0, nAll=0;
+    const own=(name,ok)=>{nAll++; if(ok){nOwned++; const k=kind(name); if(k) owned[k]=true;}};
+    let next=null, lastG='', pool=0, pool2=0;
     const flex=GOAL_PARTS.filter(p=>p.g==='flex'), flexTotal=flex.reduce((a,b)=>a+b.p,0);
     const addGroup=txt=>{const g=document.createElement('div');g.className='group';g.textContent=txt;ul.appendChild(g)};
-    // gift
-    addGroup('Ya lo tienes');
-    ul.appendChild(partLi({ic:'✨',n:'Memoria RAM',d:'Apacer NOX · 2×8 GB · regalo de Mati 💝',p:130000},'gift',1));
+    const R=C.regalo;
+    if(R&&R.mostrar){own(R.nombre,true);addGroup('Ya lo tienes');ul.appendChild(partLi({ic:R.emoji,n:R.nombre,d:R.descripcion,p:R.precio},'gift',1,R.etiqueta))}
     GOAL_PARTS.forEach(p=>{
       if(p.g==='flex'){
         if(lastG!=='flex'){
-          addGroup('Cuando estén baratas · cualquier orden');
-          var pool=Math.min(rem,flexTotal); rem-=pool; flex._pool=pool; lastG='flex';
+          addGroup(C.grupos.flex); lastG='flex';
+          pool=Math.min(rem,flexTotal); rem-=pool; pool2=pool;
           if(pool<flexTotal && !next) next={n:'Resto de piezas',left:flexTotal-pool};
         }
-        const has=flex._pool>=p.p;
-        ul.appendChild(partLi(p,has?'can':'wait',Math.min(1,flex._pool/p.p)));
+        own(p.n,pool2>=p.p); if(pool2>=p.p) pool2-=p.p; ul.appendChild(partLi(p,pool>=p.p?'can':'wait',Math.min(1,pool/p.p)));
         return;
       }
-      addGroup(p.g); lastG=p.g;
+      if(lastG!==p.g){addGroup(C.grupos[p.g]); lastG=p.g;}
       const got=Math.min(rem,p.p); rem-=got;
       if(got<p.p && !next) next={n:p.n,left:p.p-got};
-      ul.appendChild(partLi(p,got>=p.p?'done':'wait',got/p.p));
+      own(p.n,got>=p.p); ul.appendChild(partLi(p,got>=p.p?'done':'wait',got/p.p));
     });
-    if(next){$('nextName').textContent='Próxima: '+next.n;$('nextLeft').textContent='faltan '+fmt(next.left)+' · ≈'+Math.ceil(next.left/ps)+' turno'+(Math.ceil(next.left/ps)===1?'':'s')}
+    if(next){const k=Math.ceil(next.left/ps);$('nextName').textContent='Próxima: '+next.n;$('nextLeft').textContent='faltan '+fmt(next.left)+' · ≈'+turnos(k)}
     else{$('nextName').textContent='Todas las piezas listas 💗';$('nextLeft').textContent=''}
 
-    // PC lights
-    const fans=$('fans').children;
-    [0.25,0.5,0.75].forEach((th,i)=>{const on=pct>=th; fans[i].querySelector('.glow').setAttribute('opacity',on?1:0); fans[i].querySelector('.fan').classList.toggle('on',on)});
-    $('edge').setAttribute('opacity',Math.min(1,pct*1.3).toFixed(2));
-    $('gpuL').setAttribute('opacity',pct>=1?1:0);
+    document.querySelectorAll('#build [data-p]').forEach(g=>g.classList.toggle('has',!!owned[g.dataset.p]));
+    $('buildCount').textContent=nOwned+' de '+nAll+' piezas';
+    $('buildHint').textContent=nOwned>=nAll?'¡Está completo! 💗':'Las punteadas te faltan ✨';
+    document.body.classList.toggle('done',GOAL>0&&t>=GOAL);
 
     renderHist();
     $('backup').value=btoa(unescape(encodeURIComponent(JSON.stringify({perShift:state.perShift,entries:state.entries}))));
     milestones(pct);
   }
 
-  function partLi(p,st,frac){
+  function kind(n){
+    n=String(n||'').toLowerCase();
+    if(/placa/.test(n))return 'mb'; if(/procesador|cpu|ryzen/.test(n))return 'cpu'; if(/disipador|cooler|refrig/.test(n))return 'cool';
+    if(/ventilador|fan/.test(n))return 'fans'; if(/video|gpu|gr[aá]fica/.test(n))return 'gpu'; if(/ssd|m\.2|disco/.test(n))return 'ssd';
+    if(/ram|memoria/.test(n))return 'ram'; if(/gabinete|case/.test(n))return 'case'; return null;
+  }
+  function partLi(p,st,frac,giftTag){
     const li=document.createElement('li'); li.className=st;
-    const tag = st==='gift'?'<span class="tag gift">Regalo 💝</span>':st==='done'?'<span class="tag ok">¡Ya alcanza! ✓</span>':st==='can'?'<span class="tag ok">Alcanza</span>':'';
-    li.innerHTML='<div class="ic"></div><div class="pinfo"><div class="pname"></div><div class="pdesc"></div>'+(st==='wait'?'<div class="pmini"><i></i></div>':'')+'</div><div class="pr"><div class="pp"></div>'+tag+'</div>';
+    li.innerHTML='<div class="ic"></div><div class="pinfo"><div class="pname"></div><div class="pdesc"></div>'+(st==='wait'?'<div class="pmini"><i></i></div>':'')+'</div><div class="pr"><div class="pp"></div><span class="tag"></span></div>';
+    const tag=li.querySelector('.tag');
+    if(st==='gift'){tag.className='tag gift';tag.textContent=giftTag||'Regalo'}
+    else if(st==='done'){tag.className='tag ok';tag.textContent='¡Ya alcanza! ✓'}
+    else if(st==='can'){tag.className='tag ok';tag.textContent='Alcanza'}
+    else tag.remove();
     li.querySelector('.ic').textContent=p.ic; li.querySelector('.pname').textContent=p.n; li.querySelector('.pdesc').textContent=p.d;
     li.querySelector('.pp').textContent=fmt(p.p);
     const m=li.querySelector('.pmini i'); if(m) m.style.width=(Math.max(0,frac)*100).toFixed(1)+'%';
@@ -322,7 +490,7 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
     if(dep.length>=2){
       const first=Math.min(...state.entries.map(e=>e.t)), days=(Date.now()-first)/864e5;
       if(days>=7){
-        const rate=total()/days; // pesos por día
+        const rate=total()/days;
         if(rate>0){
           const d=new Date(Date.now()+left/rate*864e5);
           return 'A tu ritmo actual: ~'+d.toLocaleDateString('es-CL',{day:'numeric',month:'long',year:'numeric'});
@@ -365,13 +533,13 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
     save();render();
     if(sign>0){
       const left=Math.max(0,GOAL-total()), ps=state.perShift||30000;
-      toast(left?'¡+'+fmt(v)+'! Te faltan ≈'+Math.ceil(left/ps)+' turnos 💗':'¡Lo lograste! 🎉');
+      toast(left?'¡+'+fmt(v)+'! Te faltan ≈'+turnos(Math.ceil(left/ps))+' 💗':'¡Lo lograste! 🎉');
     }
   }
   $('add').onclick=()=>addEntry(1);
   $('sub').onclick=()=>addEntry(-1);
   $('amt').addEventListener('keydown',e=>{if(e.key==='Enter')addEntry(1)});
-  $('chips').addEventListener('click',e=>{
+  chips.addEventListener('click',e=>{
     const b=e.target.closest('.chip'); if(!b)return;
     const add=b.dataset.v==='turno'?(state.perShift||30000):+b.dataset.v;
     const n=parseAmt($('amt').value)+add; $('amt').value=n.toLocaleString('es-CL');
@@ -404,13 +572,12 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:tran
     for(let i=0;i<70;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'%';p.style.background=cols[i%cols.length];p.style.animationDelay=Math.random()*.6+'s';p.style.animationDuration=(1.8+Math.random()*1.4)+'s';c.appendChild(p)}
     setTimeout(()=>c.innerHTML='',3600);
   }
-  const MSG={25:'¡25%! Ya va un cuarto de tu PC 💗',50:'¡La mitad! Vas increíble ✨',75:'¡75%! Ya casi, casi 🎮',100:'¡TU PC ESTÁ COMPLETO! 🎉💗'};
   let booted=false;
   function milestones(pct){
     state.hit=state.hit||[];
     const p=pct*100;
     [25,50,75,100].forEach(m=>{
-      if(p>=m && !state.hit.includes(m)){state.hit.push(m);save(); if(booted){confetti();setTimeout(()=>toast(MSG[m]),3300)}}
+      if(p>=m && !state.hit.includes(m)){state.hit.push(m);save(); if(booted){confetti();setTimeout(()=>toast((C.mensajesHitos||{})[m]||('¡'+m+'%!')),3300)}}
       if(p<m && state.hit.includes(m)){state.hit=state.hit.filter(x=>x!==m);save()}
     });
   }
