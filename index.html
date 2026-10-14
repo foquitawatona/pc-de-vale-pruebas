@@ -4,8 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Ahorro PC de Vale</title>
-<meta name="theme-color" content="#fdf2f5" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#1f171b" media="(prefers-color-scheme: dark)">
+<meta name="color-scheme" content="only light">
+<meta name="theme-color" content="#fdf2f5">
 <meta name="description" content="Ahorro para el PC gamer de Vale">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icons/icon-192.png">
@@ -19,18 +19,7 @@
   --ink:color-mix(in srgb,var(--accent) 70%,#3a1020);
   --shadow:0 1px 2px rgba(120,40,70,.05),0 10px 30px -8px rgba(176,74,110,.18);
   --glass:rgba(255,255,255,.72);
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#1c1519; --card:#271d23; --soft:#38262f; --soft2:#4a2f3c; --accent:#f39ab9; --accent2:#f7b3ca;
-    --bar:#c25a80; --text:#f6e7ee; --muted:#c9a9b7; --line:#3a2a32; --ok:#7fd3ab; --okbg:#1f362b; --lila:#6b58a8;
-    --ink:var(--accent); --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -10px rgba(0,0,0,.6); --glass:rgba(39,29,35,.75);
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#1c1519; --card:#271d23; --soft:#38262f; --soft2:#4a2f3c; --accent:#f39ab9; --accent2:#f7b3ca;
-  --bar:#c25a80; --text:#f6e7ee; --muted:#c9a9b7; --line:#3a2a32; --ok:#7fd3ab; --okbg:#1f362b; --lila:#6b58a8;
-  --ink:var(--accent); --shadow:0 1px 2px rgba(0,0,0,.3),0 12px 30px -10px rgba(0,0,0,.6); --glass:rgba(39,29,35,.75);
+  color-scheme:only light;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html{background:var(--bg)}
@@ -98,8 +87,6 @@ h2{display:flex;align-items:center;gap:10px;font-size:18px;margin:0 0 14px;color
 .btn{flex:1;border:0;border-radius:18px;padding:15px;font:700 16px 'Fredoka',system-ui,sans-serif;cursor:pointer;transition:transform .12s,box-shadow .2s}
 .btn:active{transform:scale(.97)}
 .btn.main{color:#fff;background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 55%,var(--bar)));box-shadow:0 10px 22px -10px color-mix(in srgb,var(--accent) 80%,transparent)}
-:root[data-theme="dark"] .btn.main{color:#2a1f25}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .btn.main{color:#2a1f25}}
 .btn.ghost{background:var(--soft);color:var(--ink);flex:0 0 auto;padding:15px 18px}
 .err{color:var(--ink);font-weight:700;font-size:14px;min-height:18px;margin-top:8px}
 /* piezas */
@@ -157,8 +144,6 @@ textarea{width:100%;min-height:80px;border:1px solid var(--line);background:var(
 .toast{position:fixed;left:50%;bottom:max(22px,env(safe-area-inset-bottom));transform:translate(-50%,130px);background:color-mix(in srgb,var(--accent) 92%,transparent);color:#fff;padding:14px 20px;border-radius:20px;font:600 16px 'Fredoka',system-ui,sans-serif;
   box-shadow:0 14px 30px -10px color-mix(in srgb,var(--accent) 70%,transparent);backdrop-filter:blur(8px);transition:transform .45s cubic-bezier(.2,.9,.3,1.25),opacity .3s;z-index:9;opacity:0;visibility:hidden;max-width:calc(100% - 32px);text-align:center}
 .toast.on{transform:translate(-50%,0);opacity:1;visibility:visible}
-:root[data-theme="dark"] .toast{color:#2a1f25}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .toast{color:#2a1f25}}
 .conf{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:8}
 .conf i{position:absolute;top:-12px;width:9px;height:14px;border-radius:3px;animation:fall 2.4s ease-in forwards}
 @keyframes fall{to{transform:translateY(105vh) rotate(540deg);opacity:.7}}
@@ -416,9 +401,9 @@ body.done .hero-card{background:linear-gradient(165deg,color-mix(in srgb,var(--s
 <script>
 /* ====== CONFIGURACIÓN: todo lo editable de la app está aquí ====== */
 const CONFIG = /*CONFIG*/{
-  "version": "1.3",
+  "version": "2.0",
   "titulo": "Mi PC gamer 💗",
-  "subtitulo": "Cada turno esfuerzo te acerca un poquito mas :3",
+  "subtitulo": "Cada esfuerzo te acerca un poquito mas :3",
   "pie": "Con mucho amors de Mati.",
   "botonGuardar": "Guardar 💗",
   "gananciaPorTurno": 30000,
